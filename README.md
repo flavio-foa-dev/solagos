@@ -7,3 +7,5 @@ deactivate
 
 pip install streamlit
 pip install pandas
+
+ streamlit run app.py

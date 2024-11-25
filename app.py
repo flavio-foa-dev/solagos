@@ -4,6 +4,7 @@ import time
 import os
 import locale
 from datetime import datetime
+import openpyxl as op
 
 # msg de saudação
 saudacao = "Meu camarada da cidade de Londres Flavio Andrade"
@@ -40,8 +41,8 @@ else:
 
 caminho_rede = "https://github.com/flavio-foa-dev/excel/raw/main/data_printer.xlsm"
 
-historico = pd.read_excel(caminho_rede, sheet_name='HISTORICO')
 data = pd.read_excel(caminho_rede, sheet_name='Controle_Inventario_Impressoras')
+historico = pd.read_excel(caminho_rede, sheet_name='HISTORICO')
 print(data)
 
 TODOS = data[['MODELO', 'NUMERO DE SERIE', 'LOCALIZAÇÃO', 'SETOR', 'EMPRESA', 'ATUALIZADO']]
