@@ -16,7 +16,7 @@ st.set_page_config(
     page_title="So Lagos Impressoras",
     page_icon="icone.png",
     layout="wide",
-    initial_sidebar_state="expanded"  # Pode ser "auto", "expanded" ou "collapsed" 
+    initial_sidebar_state="expanded"  # Pode ser "auto", "expanded" ou "collapsed"
 )
 
 # Remover o nome de deploy
@@ -24,7 +24,7 @@ st.markdown(
     """
     <style>
     .st-emotion-cache-1wbqy5l {display: none;}  /* Seleciona e oculta o nome do deploy */
-    
+
     </style>
     """,
     unsafe_allow_html=True,
@@ -37,13 +37,12 @@ if not dados:  # Verifica se a variável está vazia
 else:
     print(f"Dados encontrados: {dados}")
 
-caminho_rede = r'D:\Solagos\BackupFOA_data\data_printer.xlsm'
-#caminho_rede = r'data.xlsx'
-#caminho_rede = r'\\Servidor\solagos\ESTOQUE - SOLAGOS\BackupFOA\data_printer.xlsm'
+
+caminho_rede = "https://github.com/flavio-foa-dev/excel/raw/main/data_printer.xlsm"
 
 historico = pd.read_excel(caminho_rede, sheet_name='HISTORICO')
 data = pd.read_excel(caminho_rede, sheet_name='Controle_Inventario_Impressoras')
-print(data)   
+print(data)
 
 TODOS = data[['MODELO', 'NUMERO DE SERIE', 'LOCALIZAÇÃO', 'SETOR', 'EMPRESA', 'ATUALIZADO']]
 # TODOS = data[[ 'MODELO', 'NUMERO DE SERIE', 'LOCALIZAÇÃO', 'SETOR', 'EMPRESA']]
@@ -53,7 +52,7 @@ indiceSelect = TODOS['LOCALIZAÇÃO'].drop_duplicates().sort_values()
 print('Pritando indice')
 print(indiceSelect)
 
-with st.sidebar:    
+with st.sidebar:
     with st.spinner("Loading..."):
         time.sleep(2)
     st.success("So Lagos Impressora 🖨️")
@@ -65,12 +64,12 @@ filteredToLocation = add_selectbox = st.sidebar.selectbox(
 
 print('Minha Escolha foi: ',filteredToLocation )
 
-location = TODOS.loc[TODOS['LOCALIZAÇÃO'] == filteredToLocation] 
+location = TODOS.loc[TODOS['LOCALIZAÇÃO'] == filteredToLocation]
 location['ATUALIZADO'] = location['ATUALIZADO'].dt.strftime('%d/%m/%Y')
 print(location)
 
 st.header("Impressora por :blue[Localização 🖨️]")
-df = st.dataframe(location, hide_index=True) 
+df = st.dataframe(location, hide_index=True)
 
 #Tabela  de  impressoras filtradas sideBar
 total = len(location['NUMERO DE SERIE'])
@@ -79,7 +78,7 @@ st.sidebar.title(total)
 coutEmpresa = location['EMPRESA'].value_counts().reset_index(name='QUANT.')
 coutPrint = location['MODELO'].value_counts().reset_index(name='QUANT.')
 
-with st.sidebar:    
+with st.sidebar:
     st.dataframe(coutPrint, hide_index=True)
     st.dataframe(coutEmpresa, hide_index=True)
 
@@ -92,9 +91,9 @@ st.sidebar.markdown(
     ---
     &copy; {current_year} Desenvolvido 🚀 Flavio Andrade.
     """
-)    
+)
 
-# container com 3 colunas com todas impressoras 
+# container com 3 colunas com todas impressoras
 coutGeral = data['EMPRESA'].value_counts().reset_index(name='QUANT.')
 todosTipos = data['TIPO'].value_counts().reset_index(name='QUANT.')
 
@@ -127,21 +126,21 @@ todosLocalizacao = TODOS['LOCALIZAÇÃO'].value_counts().reset_index(name='QUANT
 pesquisa = st.text_input("Digite o modelo da impressora: 🧐🕵️", placeholder="Digite sua pesquisa aqui...   🔎").upper()
 botao = st.button('Pesquisar🔎')
 if botao and pesquisa:
-    st.write(f"voce pesquisou por: {pesquisa}")   
+    st.write(f"voce pesquisou por: {pesquisa}")
 
-    location = TODOS.loc[TODOS['MODELO'].str.contains(pesquisa)] 
+    location = TODOS.loc[TODOS['MODELO'].str.contains(pesquisa)]
     listafiltrada = len(location['NUMERO DE SERIE'])
     st.write(f"total de impressoras: :orange[{listafiltrada}]")
-    st.write(location)   
+    st.write(location)
 
-# Historico das impressoras: 
+# Historico das impressoras:
 st.header(":orange[Historico das impressora]  🕡")
 with st.expander("Clique para expandir historico"):
     todasImpressoras = len(historico['NUMERO DE SERIE'])
     st.write('ToTal: ', todasImpressoras)
     hisgroup = historico.groupby(by=['NUMERO DE SERIE'])['OBSERVAÇÃO'].apply(list)
     st.dataframe(hisgroup)
-    
+
 
 st.header("Relatorio com todas as :blue[impressora]  ⬇️")
 with st.expander("Clique para expandir tabela com todas impressoras"):
@@ -167,4 +166,3 @@ with st.expander("Clique para expandir relatório com todas impressora"):
     with tab4:
         st.header("Local")
         st.write(todosLocalizacao)
-    
