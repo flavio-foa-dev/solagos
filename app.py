@@ -10,7 +10,7 @@ import openpyxl as op
 saudacao = "Meu camarada da cidade de Londres Flavio Andrade"
 print(saudacao)
 
-locale.setlocale(locale.LC_TIME, 'pt_BR.UTF-8')
+
 print('meu caminho separado',os.sep)
 
 st.set_page_config(
