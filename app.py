@@ -142,6 +142,7 @@ if botao and pesquisa:
 
 
     st.write(f"total de impressoras: :orange[{listafiltrada}]")
+    location['ATUALIZADO'] = location['ATUALIZADO'].dt.strftime('%d/%m/%Y')
     st.write(location)
     st.dataframe(contagem_por_localidade, hide_index=True)
 
