@@ -24,12 +24,12 @@ st.set_page_config(
 st.markdown(
     """
     <style>
-    .st-emotion-cache-1wbqy5l {display: none;}  /* Seleciona e oculta o nome do deploy */
-    .css-18e3th9 {
+        .st-emotion-cache-1wbqy5l {display: none;}  /* Seleciona e oculta o nome do deploy */
+        .css-18e3th9 {
             visibility: hidden;
         }
-    .css-1f1i60u {
-        visibility: hidden;
+        .css-1f1i60u {
+            visibility: hidden;
         }
     </style>
     """,
@@ -136,8 +136,13 @@ if botao and pesquisa:
 
     location = TODOS.loc[TODOS['MODELO'].str.contains(pesquisa)]
     listafiltrada = len(location['NUMERO DE SERIE'])
+
+    contagem_por_localidade = location.groupby('LOCALIZAÇÃO').size().reset_index(name='Quant')
+
+
     st.write(f"total de impressoras: :orange[{listafiltrada}]")
     st.write(location)
+    st.dataframe(contagem_por_localidade)
 
 # Historico das impressoras:
 st.header(":orange[Historico das impressora]  🕡")
