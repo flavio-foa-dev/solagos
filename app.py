@@ -31,9 +31,7 @@ st.markdown(
         .css-1f1i60u {
             visibility: hidden;
         }
-        ._link_gzau3_10 {
-            display: none;
-        }
+        ._link_gzau3_10 {display: none;}
     </style>
     """,
     unsafe_allow_html=True,
