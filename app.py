@@ -142,7 +142,7 @@ if botao and pesquisa:
 
     st.write(f"total de impressoras: :orange[{listafiltrada}]")
     st.write(location)
-    st.dataframe(contagem_por_localidade)
+    st.dataframe(contagem_por_localidade, hide_index=True)
 
 # Historico das impressoras:
 st.header(":orange[Historico das impressora]  🕡")
