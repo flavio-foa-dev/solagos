@@ -1,0 +1,18 @@
+
+[theme]
+
+base="light"
+primaryColor="#A9A9A9"  # Cinza escuro
+backgroundColor="#FFFFFF"  # Branco
+secondaryBackgroundColor="#F0F0F0"  # Cinza claro
+textColor="#333333"  # Texto escuro
+sidebarBackgroundColor="#D3D3D3"  # Sidebar cinza claro
+font="sans serif"
+
+[server]
+headless = true
+enableCORS = false
+enableWebsocketCompression = false
+
+[ui]
+hideStreamlitMarkers = true
