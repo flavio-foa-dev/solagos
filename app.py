@@ -122,6 +122,7 @@ st.header("Relatorio com todas as :blue[impressora]  ⬇️")
 with st.expander("Clique para expandir tabela com todas impressoras"):
     todasImpressoras = len(TODOS['NUMERO DE SERIE'])
     st.write('ToTal: ', todasImpressoras)
+    TODOS['ATUALIZADO'] = TODOS['ATUALIZADO'].dt.strftime('%d/%m/%Y')
     TODOS
 
 #container
@@ -147,6 +148,7 @@ with st.expander("Clique para expandir relatório com todas impressora"):
 st.markdown(
     """
         <style>
+            .st-emotion-cache-1wbqy5l {display: none;}
 
         </style>
     """,
