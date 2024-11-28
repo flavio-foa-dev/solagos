@@ -2,9 +2,9 @@ import pandas as pd
 import streamlit as st
 import time
 import os
-import locale
 from datetime import datetime
 import openpyxl as op
+import validation
 
 # msg de saudação
 saudacao = "Meu camarada da cidade de Londres Flavio Andrade"
@@ -20,22 +20,7 @@ st.set_page_config(
     initial_sidebar_state="expanded"  # Pode ser "auto", "expanded" ou "collapsed"
 )
 
-# Remover o nome de deploy
-st.markdown(
-    """
-    <style>
-        .st-emotion-cache-1wbqy5l {display: none;}  /* Seleciona e oculta o nome do deploy */
-        .css-18e3th9 {
-            visibility: hidden;
-        }
-        .css-1f1i60u {
-            visibility: hidden;
-        }
-        ._link_gzau3_10 {display: none;}
-    </style>
-    """,
-    unsafe_allow_html=True,
-)
+
 
 # validação de caminho de data
 dados = 123  # ou pode ser None, [], etc.
@@ -44,6 +29,7 @@ if not dados:  # Verifica se a variável está vazia
 else:
     print(f"Dados encontrados: {dados}")
 
+validation.validateUser()
 
 caminho_rede = "https://github.com/flavio-foa-dev/excel/raw/main/data_printer.xlsm"
 
@@ -51,7 +37,7 @@ data = pd.read_excel(caminho_rede, sheet_name='Controle_Inventario_Impressoras')
 historico = pd.read_excel(caminho_rede, sheet_name='HISTORICO')
 print(data)
 
-TODOS = data[['MODELO', 'NUMERO DE SERIE', 'LOCALIZAÇÃO', 'SETOR', 'EMPRESA', 'ATUALIZADO']]
+TODOS = data[['MODELO', 'NUMERO DE SERIE', 'LOCALIZAÇÃO', 'SETOR', 'EMPRESA', 'ATUALIZADO', 'PRINTWAY']]
 # TODOS = data[[ 'MODELO', 'NUMERO DE SERIE', 'LOCALIZAÇÃO', 'SETOR', 'EMPRESA']]
 
 # selected
@@ -100,35 +86,7 @@ st.sidebar.markdown(
     """
 )
 
-# container com 3 colunas com todas impressoras
-coutGeral = data['EMPRESA'].value_counts().reset_index(name='QUANT.')
-todosTipos = data['TIPO'].value_counts().reset_index(name='QUANT.')
 
-todosModelos = TODOS['MODELO'].value_counts().reset_index(name='QUANT.')
-#todosModelos.name = 'TOTAL'
-
-todosLocalizacao = TODOS['LOCALIZAÇÃO'].value_counts().reset_index(name='QUANT.')
-#todosModelos.name = 'TOTAL'
-
-#container = st.container(border=4)
-#col1, col2, col3, col4 = container.columns([1, 1, 1, 1])
-#with col1:
-#    st.header("MODELOS")
-#   st.write(todosModelos)
-
-#with col2:
-#    st.header("EMPRESA")
-#    st.write(coutGeral)
-
-#with col3:
-#    st.header("TIPO")
-#   st.write(todosTipos)
-
-#with col4:
-#    st.header("LOCAL")
-#    st.write(todosLocalizacao)
-
-# CAMPO DE PESQUISA COM TODAS AS IMPRESSORAS
 
 pesquisa = st.text_input("Digite o modelo da impressora: 🧐🕵️", placeholder="Digite sua pesquisa aqui...   🔎").upper()
 botao = st.button('Pesquisar🔎')
@@ -154,13 +112,18 @@ with st.expander("Clique para expandir historico"):
     hisgroup = historico.groupby(by=['NUMERO DE SERIE'])['OBSERVAÇÃO'].apply(list)
     st.dataframe(hisgroup, hide_index=True)
 
+# container com 3 colunas com todas impressoras
+coutGeral = data['EMPRESA'].value_counts().reset_index(name='QUANT.')
+todosTipos = data['TIPO'].value_counts().reset_index(name='QUANT.')
+todosModelos = TODOS['MODELO'].value_counts().reset_index(name='QUANT.')
+todosLocalizacao = TODOS['LOCALIZAÇÃO'].value_counts().reset_index(name='QUANT.')
 
 st.header("Relatorio com todas as :blue[impressora]  ⬇️")
 with st.expander("Clique para expandir tabela com todas impressoras"):
     todasImpressoras = len(TODOS['NUMERO DE SERIE'])
     st.write('ToTal: ', todasImpressoras)
     TODOS
-# abas
+
 #container
 with st.expander("Clique para expandir relatório com todas impressora"):
 
@@ -179,3 +142,13 @@ with st.expander("Clique para expandir relatório com todas impressora"):
     with tab4:
         st.header("Local")
         st.write(todosLocalizacao)
+
+# Remover o nome de deploy
+st.markdown(
+    """
+        <style>
+
+        </style>
+    """,
+    unsafe_allow_html=True
+)
