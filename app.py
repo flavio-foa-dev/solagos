@@ -6,6 +6,16 @@ from datetime import datetime
 import openpyxl as op
 import validation
 
+# Remover o nome de deploy
+st.markdown(
+    """
+        <style>
+            .st-emotion-cache-1wbqy5l {display: none;}
+
+        </style>
+    """,
+    unsafe_allow_html=True
+)
 # msg de saudação
 saudacao = "Meu camarada da cidade de Londres Flavio Andrade"
 print(saudacao)
