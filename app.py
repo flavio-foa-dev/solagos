@@ -6,6 +6,19 @@ from datetime import datetime
 import openpyxl as op
 import validation
 
+# msg de saudação
+saudacao = "Meu camarada da cidade de Londres Flavio Andrade"
+print(saudacao)
+
+print('meu caminho separado',os.sep)
+
+st.set_page_config(
+    page_title="So Lagos Impressoras",
+    page_icon="icone.png",
+    layout="wide",
+    initial_sidebar_state="expanded"  # Pode ser "auto", "expanded" ou "collapsed"
+)
+
 # Remover o nome de deploy
 st.markdown(
     """
@@ -15,19 +28,6 @@ st.markdown(
         </style>
     """,
     unsafe_allow_html=True
-)
-# msg de saudação
-saudacao = "Meu camarada da cidade de Londres Flavio Andrade"
-print(saudacao)
-
-
-print('meu caminho separado',os.sep)
-
-st.set_page_config(
-    page_title="So Lagos Impressoras",
-    page_icon="icone.png",
-    layout="wide",
-    initial_sidebar_state="expanded"  # Pode ser "auto", "expanded" ou "collapsed"
 )
 
 
