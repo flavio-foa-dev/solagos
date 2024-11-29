@@ -31,9 +31,13 @@ st.markdown(
             ._profilePreview_gzau3_63 {display: none;}
             .css-18e3th9 {
                 visibility: hidden;
+                display: none;
             }
             .css-1f1i60u {
                 visibility: hidden;
+            }
+            .css-1gg49ve {
+                display: none;
             }
 
         </style>
