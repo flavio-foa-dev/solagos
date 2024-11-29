@@ -24,12 +24,13 @@ st.markdown(
     """
         <style>
             .st-emotion-cache-1wbqy5l {display: none;}
-             .css-18e3th9 {
-            visibility: hidden;
-        }
-        .css-1f1i60u {
-            visibility: hidden;
-        }
+            .stToolbarActionButton {display: none;}
+            .css-18e3th9 {
+                visibility: hidden;
+            }
+            .css-1f1i60u {
+                visibility: hidden;
+            }
 
         </style>
     """,
