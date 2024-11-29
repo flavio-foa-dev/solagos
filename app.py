@@ -26,6 +26,7 @@ st.markdown(
             .st-emotion-cache-1wbqy5l {display: none;}
             .stToolbarActionButton {display: none;}
             ._link_gzau3_10 {display: none;}
+            ._profilePreview_gzau3_63 {display: none;}
             .css-18e3th9 {
                 visibility: hidden;
             }
