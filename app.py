@@ -25,10 +25,10 @@ st.markdown(
         <style>
             .st-emotion-cache-1wbqy5l {display: none;}
             .stToolbarActionButton {display: none;}
-            ._link_gzau3_10 {
-                background-color: transparent;
-            }
+
             ._profilePreview_gzau3_63 {display: none;}
+            ._profileContainer_gzau3_53 {display: none;}
+
             .css-18e3th9 {
                 visibility: hidden;
                 display: none;
@@ -42,7 +42,6 @@ st.markdown(
             .css-1y0t01g {
                 display: none;
             }
-
         </style>
     """,
     unsafe_allow_html=True
