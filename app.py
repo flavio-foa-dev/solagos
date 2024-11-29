@@ -39,6 +39,9 @@ st.markdown(
             .css-1gg49ve {
                 display: none;
             }
+            .css-1y0t01g {
+                display: none;
+            }
 
         </style>
     """,
