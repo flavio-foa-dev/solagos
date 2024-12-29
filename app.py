@@ -10,7 +10,6 @@ import filter
 # msg de saudação
 saudacao = "Meu camarada da cidade de Londres Flavio Andrade"
 print(saudacao)
-
 print('meu caminho separado',os.sep)
 
 st.set_page_config(
@@ -43,14 +42,10 @@ st.markdown(
             .css-1y0t01g {
                 display: none;
             }
-            .container {
-                border: 4px solid orange;
         </style>
     """,
     unsafe_allow_html=True
 )
-
-
 
 # validação de caminho de data
 dados = 123  # ou pode ser None, [], etc.
@@ -68,7 +63,7 @@ historico = pd.read_excel(caminho_rede, sheet_name='HISTORICO')
 print(data)
 
 TODOS = data[['MODELO', 'NUMERO DE SERIE', 'LOCALIZAÇÃO', 'SETOR', 'EMPRESA', 'ATUALIZADO', 'PRINTWAY']]
-# TODOS = data[[ 'MODELO', 'NUMERO DE SERIE', 'LOCALIZAÇÃO', 'SETOR', 'EMPRESA']]
+TODOSS = data[['MODELO','TIPO', 'NUMERO DE SERIE', 'LOCALIZAÇÃO', 'SETOR', 'EMPRESA', 'ATUALIZADO', 'PRINTWAY', 'OBSERVAÇÃO']]
 
 # selected
 indiceSelect = TODOS['LOCALIZAÇÃO'].drop_duplicates().sort_values()
@@ -81,10 +76,9 @@ with st.sidebar:
     st.success("So Lagos Impressora 🖨️")
 
 filteredToLocation = add_selectbox = st.sidebar.selectbox(
-    "BUSCA PO LOCAL🔎🔽 ",
+    "BUSCA POR LOCAL 🔎🔽 ",
     (indiceSelect)
 )
-
 print('Minha Escolha foi: ',filteredToLocation )
 
 location = TODOS.loc[TODOS['LOCALIZAÇÃO'] == filteredToLocation]
@@ -118,47 +112,9 @@ st.sidebar.markdown(
 
 filter.filterByModel(TODOS)
 
-# Historico das impressoras:
-st.header(":orange[Historico das impressora]  🕡")
-with st.expander("Clique para expandir historico"):
-    todasImpressoras = len(historico['NUMERO DE SERIE'])
-    st.write('ToTal: ', todasImpressoras)
-    hisgroup = historico.groupby(by=['NUMERO DE SERIE'])['OBSERVAÇÃO'].apply(list)
-    st.dataframe(hisgroup, hide_index=True)
+filter.filterByAll(TODOSS)
 
-# container com 3 colunas com todas impressoras
-coutGeral = data['EMPRESA'].value_counts().reset_index(name='QUANT.')
-todosTipos = data['TIPO'].value_counts().reset_index(name='QUANT.')
-todosModelos = TODOS['MODELO'].value_counts().reset_index(name='QUANT.')
-todosLocalizacao = TODOS['LOCALIZAÇÃO'].value_counts().reset_index(name='QUANT.')
-
-st.header("Relatorio com todas as :blue[impressora]  ⬇️")
-with st.expander("Clique para expandir tabela com todas impressoras"):
-    todasImpressoras = len(TODOS['NUMERO DE SERIE'])
-    st.write('ToTal: ', todasImpressoras)
-    TODOS['ATUALIZADO'] = TODOS['ATUALIZADO'].dt.strftime('%d/%m/%Y')
-    TODOS
-
-#container
-with st.expander("Clique para expandir relatório com todas impressora"):
-
-    container2 = st.container(border=4)
-    tab1, tab2, tab3, tab4 = container2.tabs(["Modelos", "Empresa", "Tipo", "Local"])
-
-    with tab1:
-        st.header("Modelos")
-        st.write(todosModelos)
-    with tab2:
-        st.header("Empresa")
-        st.write(coutGeral)
-    with tab3:
-        st.header("Tipo")
-        st.write(todosTipos)
-    with tab4:
-        st.header("Local")
-        st.write(todosLocalizacao)
-
-
+filter.listAllprint(TODOS, TODOSS)
 
 # Remover o nome de deploy
 st.markdown(
