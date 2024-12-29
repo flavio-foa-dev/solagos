@@ -47,20 +47,11 @@ st.markdown(
     unsafe_allow_html=True
 )
 
-# validação de caminho de data
-dados = 123  # ou pode ser None, [], etc.
-if not dados:  # Verifica se a variável está vazia
-    print("Erro: os dados estão vazios!")
-else:
-    print(f"Dados encontrados: {dados}")
-
-#validation.validateUser()
+validation.validateUser()
 
 caminho_rede = "https://github.com/flavio-foa-dev/excel/raw/main/data_printer.xlsm"
-
 data = pd.read_excel(caminho_rede, sheet_name='Controle_Inventario_Impressoras')
 historico = pd.read_excel(caminho_rede, sheet_name='HISTORICO')
-print(data)
 
 TODOS = data[['MODELO', 'NUMERO DE SERIE', 'LOCALIZAÇÃO', 'SETOR', 'EMPRESA', 'ATUALIZADO', 'PRINTWAY']]
 TODOSS = data[['MODELO','TIPO', 'NUMERO DE SERIE', 'LOCALIZAÇÃO', 'SETOR', 'EMPRESA', 'ATUALIZADO', 'PRINTWAY', 'OBSERVAÇÃO']]
@@ -121,7 +112,6 @@ st.markdown(
     """
         <style>
             .st-emotion-cache-1wbqy5l {display: none;}
-
         </style>
     """,
     unsafe_allow_html=True
