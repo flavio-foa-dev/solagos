@@ -5,6 +5,7 @@ import os
 from datetime import datetime
 import openpyxl as op
 import validation
+import filter
 
 # msg de saudação
 saudacao = "Meu camarada da cidade de Londres Flavio Andrade"
@@ -42,6 +43,8 @@ st.markdown(
             .css-1y0t01g {
                 display: none;
             }
+            .container {
+                border: 4px solid orange;
         </style>
     """,
     unsafe_allow_html=True
@@ -56,7 +59,7 @@ if not dados:  # Verifica se a variável está vazia
 else:
     print(f"Dados encontrados: {dados}")
 
-validation.validateUser()
+#validation.validateUser()
 
 caminho_rede = "https://github.com/flavio-foa-dev/excel/raw/main/data_printer.xlsm"
 
@@ -113,23 +116,7 @@ st.sidebar.markdown(
     """
 )
 
-
-
-pesquisa = st.text_input("Digite o modelo da impressora: 🧐🕵️", placeholder="Digite sua pesquisa aqui...   🔎").upper()
-botao = st.button('Pesquisar🔎')
-if botao and pesquisa:
-    st.write(f"voce pesquisou por: {pesquisa}")
-
-    location = TODOS.loc[TODOS['MODELO'].str.contains(pesquisa)]
-    listafiltrada = len(location['NUMERO DE SERIE'])
-
-    contagem_por_localidade = location.groupby('LOCALIZAÇÃO').size().reset_index(name='Quant')
-
-
-    st.write(f"total de impressoras: :orange[{listafiltrada}]")
-    location['ATUALIZADO'] = location['ATUALIZADO'].dt.strftime('%d/%m/%Y')
-    st.write(location)
-    st.dataframe(contagem_por_localidade, hide_index=True)
+filter.filterByModel(TODOS)
 
 # Historico das impressoras:
 st.header(":orange[Historico das impressora]  🕡")
@@ -170,6 +157,8 @@ with st.expander("Clique para expandir relatório com todas impressora"):
     with tab4:
         st.header("Local")
         st.write(todosLocalizacao)
+
+
 
 # Remover o nome de deploy
 st.markdown(
