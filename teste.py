@@ -12,3 +12,16 @@ if not dados:  # Verifica se a variável está vazia
     print("Erro: os dados estão vazios!")
 else:
     print(f"Dados encontrados: {dados}")
+
+for url in imagem_urls:
+        st.image(url)
+
+    st.image(imagem_urls[0], caption="Brothes - 502 ")
+
+for idx, url in enumerate(imagem_urls):
+        if idx % 3 == 0:
+            col1.image(url, use_container_width=True)
+        elif idx % 3 == 1:
+            col2.image(url, use_container_width=True)
+        else:
+            col3.image(url, use_container_width=True)

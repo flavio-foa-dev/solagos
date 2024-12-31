@@ -6,6 +6,7 @@ from datetime import datetime
 import openpyxl as op
 import validation
 import filter
+import images
 
 # msg de saudação
 saudacao = "Meu camarada da cidade de Londres Flavio Andrade"
@@ -106,6 +107,10 @@ filter.filterByModel(TODOS)
 filter.filterByAll(TODOSS)
 
 filter.listAllprint(TODOS, TODOSS)
+
+images.exibir_imagens()
+
+images.exibir_video()
 
 # Remover o nome de deploy
 st.markdown(
