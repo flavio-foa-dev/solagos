@@ -5,7 +5,7 @@ import os
 from datetime import datetime
 import openpyxl as op
 import validation
-import filter
+import filters
 import images
 
 # msg de saudação
@@ -102,15 +102,15 @@ st.sidebar.markdown(
     """
 )
 
-filter.filterByModel(TODOS)
+filters.filterByModel(TODOS)
 
-filter.filterByAll(TODOSS)
+filters.filterByAll(TODOSS)
 
-filter.listAllprint(TODOS, TODOSS)
+filters.listAllprint(TODOS, TODOSS)
 
-images.exibir_imagens()
+images.show_imagens()
 
-images.exibir_video()
+images.show_video()
 
 # Remover o nome de deploy
 st.markdown(

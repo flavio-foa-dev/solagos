@@ -3,7 +3,7 @@ import requests
 from io import BytesIO
 
 # Função para exibir as imagens do GitHub
-def exibir_imagens():
+def show_imagens():
     st.title("Galeria de Imagens")
     col1, col2, col3 = st.columns(3)  # 3 colunas para distribuir as imagens
 
@@ -23,7 +23,11 @@ def exibir_imagens():
         "https://raw.githubusercontent.com/flavio-foa-dev/excel/main/image/image12.jpeg",
         "https://raw.githubusercontent.com/flavio-foa-dev/excel/main/image/image13.jpeg",
         "https://raw.githubusercontent.com/flavio-foa-dev/excel/main/image/image14.jpeg",
-        "https://raw.githubusercontent.com/flavio-foa-dev/excel/main/image/image15.jpeg"
+        "https://raw.githubusercontent.com/flavio-foa-dev/excel/main/image/image15.jpeg",
+        "https://raw.githubusercontent.com/flavio-foa-dev/excel/main/image/image16.jpeg"
+        "https://raw.githubusercontent.com/flavio-foa-dev/excel/main/image/image17.jpeg"
+        "https://raw.githubusercontent.com/flavio-foa-dev/excel/main/image/image18.jpeg"
+
     ]
 
     captions = [
@@ -41,7 +45,10 @@ def exibir_imagens():
         "Ricoh",
         "Carrinhos - Gavetas",
         "Toners Ricoh",
-        "Toners Brothes"
+        "Toners Brothes",
+        "Brother 5512 Nova",
+        "Ventilador Mesa",
+        "Ventilador Coluna"
     ]
 
     for idx, (url, caption) in enumerate(zip(imagem_urls, captions)):
@@ -53,7 +60,7 @@ def exibir_imagens():
             col3.image(url, caption=caption, use_container_width=True)
 
 
-def exibir_video():
+def show_video():
     videos_urls = ["https://github.com/flavio-foa-dev/excel/raw/main/video/video1.mp4" ]
 
     st.title("Galeria de Vídeos")
