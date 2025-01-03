@@ -24,8 +24,8 @@ def show_imagens():
         "https://raw.githubusercontent.com/flavio-foa-dev/excel/main/image/image13.jpeg",
         "https://raw.githubusercontent.com/flavio-foa-dev/excel/main/image/image14.jpeg",
         "https://raw.githubusercontent.com/flavio-foa-dev/excel/main/image/image15.jpeg",
-        "https://raw.githubusercontent.com/flavio-foa-dev/excel/main/image/image16.jpeg"
-        "https://raw.githubusercontent.com/flavio-foa-dev/excel/main/image/image17.jpeg"
+        "https://raw.githubusercontent.com/flavio-foa-dev/excel/main/image/image16.jpeg",
+        "https://raw.githubusercontent.com/flavio-foa-dev/excel/main/image/image17.jpeg",
         "https://raw.githubusercontent.com/flavio-foa-dev/excel/main/image/image18.jpeg"
 
     ]
