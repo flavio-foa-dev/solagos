@@ -8,7 +8,7 @@ def searchLocation(TODOS):
 
 def filterByModel(TODOS):
     with st.container(border=4):
-        getByPrint = st.text_input("Digite o modelo da impressora: 🧐🕵️", placeholder="Digite sua pesquisa aqui...").upper()
+        getByPrint = st.text_input("Digite o modelo da impressora: 🧐🕵️", placeholder="Digite sua pesquisa aqui...", key="digite").upper()
 
         searchButton = st.button('Pesquisa🔎')
 
@@ -87,8 +87,8 @@ def listAllprint(TODOS, TODOSS):
         with st.expander("Clique para expandir tabela com todas impressoras"):
             todasImpressoras = len(TODOS['NUMERO DE SERIE'])
             st.write('ToTal: ', todasImpressoras)
-            TODOS['ATUALIZADO'] = TODOS['ATUALIZADO'].dt.strftime('%d/%m/%Y')
-            st.dataframe(TODOS, hide_index=True)
+            #TODOS['ATUALIZADO'] = TODOS['ATUALIZADO'].dt.strftime('%d/%m/%Y')
+            #st.dataframe(TODOS, hide_index=True)
 
 
         # container com 3 colunas com todas impressoras
