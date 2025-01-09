@@ -10,4 +10,4 @@ deactivate
 pip install streamlit
 pip install pandas
 
- streamlit run app.py
+streamlit run app.py
