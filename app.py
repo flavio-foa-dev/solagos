@@ -1,9 +1,9 @@
 import pandas as pd
 import streamlit as st
 import time
-import os
 from datetime import datetime
 import openpyxl as op
+
 import validation
 import filters
 import images
@@ -11,7 +11,6 @@ import images
 # msg de saudação
 saudacao = "Meu camarada da cidade de Londres Flavio Andrade"
 print(saudacao)
-print('meu caminho separado',os.sep)
 
 st.set_page_config(
     page_title="So Lagos Impressoras",
@@ -54,7 +53,7 @@ caminho_rede = "https://github.com/flavio-foa-dev/excel/raw/main/data_printer.xl
 data = pd.read_excel(caminho_rede, sheet_name='Controle_Inventario_Impressoras')
 historico = pd.read_excel(caminho_rede, sheet_name='HISTORICO')
 
-TODOS = data[['MODELO', 'NUMERO DE SERIE', 'LOCALIZAÇÃO', 'SETOR', 'EMPRESA', 'ATUALIZADO', 'PRINTWAY']]
+TODOS = data[['MODELO', 'TIPO','NUMERO DE SERIE', 'LOCALIZAÇÃO', 'SETOR', 'EMPRESA', 'ATUALIZADO', 'PRINTWAY']]
 TODOSS = data[['MODELO','TIPO', 'NUMERO DE SERIE', 'LOCALIZAÇÃO', 'SETOR', 'EMPRESA', 'ATUALIZADO', 'PRINTWAY', 'OBSERVAÇÃO']]
 
 # selected
@@ -78,18 +77,27 @@ location['ATUALIZADO'] = location['ATUALIZADO'].dt.strftime('%d/%m/%Y')
 print(location)
 
 st.header("Impressora por :blue[Localização 🖨️]")
+#locationN = location.drop(['TIPO', 'EMPRESA'], axis=1)
 df = st.dataframe(location, hide_index=True)
 
 #Tabela  de  impressoras filtradas sideBar
 total = len(location['NUMERO DE SERIE'])
 st.sidebar.title(total)
 
-coutEmpresa = location['EMPRESA'].value_counts().reset_index(name='QUANT.')
 coutPrint = location['MODELO'].value_counts().reset_index(name='QUANT.')
+coutEmpresa = location['EMPRESA'].value_counts().reset_index(name='QUANT.')
+coutType= location['TIPO'].value_counts().reset_index(name='QUANT.')
+
+
+df_concat = pd.concat([coutEmpresa, coutType]).fillna('')
 
 with st.sidebar:
     st.dataframe(coutPrint, hide_index=True)
     st.dataframe(coutEmpresa, hide_index=True)
+    st.dataframe(coutType, hide_index=True)
+
+    #st.dataframe(df_concat, hide_index=True)
+
 
 # Obtendo o ano atual
 current_year = datetime.now().year

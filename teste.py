@@ -25,3 +25,6 @@ for idx, url in enumerate(imagem_urls):
             col2.image(url, use_container_width=True)
         else:
             col3.image(url, use_container_width=True)
+
+valor = st.slider('Escolha um valor', 0, 100, 50)
+st.write(f'Você escolheu {valor}')
