@@ -51,7 +51,7 @@ validation.validateUser()
 
 caminho_rede = "https://github.com/flavio-foa-dev/excel/raw/main/data_printer.xlsm"
 data = pd.read_excel(caminho_rede, sheet_name='Controle_Inventario_Impressoras')
-historico = pd.read_excel(caminho_rede, sheet_name='HISTORICO')
+
 
 stock = pd.read_excel(caminho_rede, sheet_name='estoque')
 
