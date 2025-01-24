@@ -53,6 +53,8 @@ caminho_rede = "https://github.com/flavio-foa-dev/excel/raw/main/data_printer.xl
 data = pd.read_excel(caminho_rede, sheet_name='Controle_Inventario_Impressoras')
 historico = pd.read_excel(caminho_rede, sheet_name='HISTORICO')
 
+stock = pd.read_excel(caminho_rede, sheet_name='estoque')
+
 TODOS = data[['MODELO', 'TIPO','NUMERO DE SERIE', 'LOCALIZAÇÃO', 'SETOR', 'EMPRESA', 'ATUALIZADO', 'PRINTWAY']]
 TODOSS = data[['MODELO','TIPO', 'NUMERO DE SERIE', 'LOCALIZAÇÃO', 'SETOR', 'EMPRESA', 'ATUALIZADO', 'PRINTWAY', 'OBSERVAÇÃO']]
 
@@ -119,6 +121,12 @@ filters.listAllprint(TODOS, TODOSS)
 images.show_imagens()
 
 images.show_video()
+
+st.dataframe(stock.fillna(""), hide_index=True)
+
+
+
+
 
 # Remover o nome de deploy
 st.markdown(
