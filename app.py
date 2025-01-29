@@ -60,8 +60,6 @@ TODOSS = data[['MODELO','TIPO', 'NUMERO DE SERIE', 'LOCALIZAÇÃO', 'SETOR', 'EM
 
 # selected
 indiceSelect = TODOS['LOCALIZAÇÃO'].drop_duplicates().sort_values()
-print('Pritando indice')
-print(indiceSelect)
 
 with st.sidebar:
     with st.spinner("Loading..."):
@@ -72,11 +70,9 @@ filteredToLocation = add_selectbox = st.sidebar.selectbox(
     "BUSCA POR LOCAL 🔎🔽 ",
     (indiceSelect)
 )
-print('Minha Escolha foi: ',filteredToLocation )
 
 location = TODOS.loc[TODOS['LOCALIZAÇÃO'] == filteredToLocation]
 location['ATUALIZADO'] = location['ATUALIZADO'].dt.strftime('%d/%m/%Y')
-print(location)
 
 st.header("Impressora por :blue[Localização 🖨️]")
 #locationN = location.drop(['TIPO', 'EMPRESA'], axis=1)
@@ -124,6 +120,98 @@ images.show_video()
 
 st.dataframe(stock.fillna(""), hide_index=True)
 
+
+
+
+
+
+df = pd.DataFrame(indiceSelect)
+# Título da aplicação
+st.title('CARD BY LOCATION')
+
+# Dividir a tela em 3 colunas
+col1, col2, col3 = st.columns(3)
+
+# Criar cards para cada linha e distribuir em 3 colunas
+for i in range(0, len(df), 3):  # Itera em blocos de 3 linhas
+
+    with col1:
+        if i < len(df):
+            row = df.iloc[i]
+
+            loca = TODOS.loc[TODOS['LOCALIZAÇÃO'] == row['LOCALIZAÇÃO']]
+            total = len(loca['NUMERO DE SERIE'])
+
+            st.markdown(f"""
+                <div style="
+                    border: 2px solid #f2a73d;
+                    border-radius: 15px;
+                    padding: 20px;
+                    margin-bottom: 20px;
+                    background-color: #2c3e50;
+                    box-sizing: border-box;
+                    word-wrap: break-word;
+                    display: flex;
+                    flex-direction: column;
+                    align-items: center;
+                    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+                    transition: transform 0.3s ease;">
+                    <h3 style="color: #ecf0f1; text-align: center; margin: 0 0 10px 0; font-size: 1.5em;">{row['LOCALIZAÇÃO']}</h3>
+                    <p style="color: #ecf0f1; text-align: center; font-size: 1.2em;"><strong>Total:</strong> {total}</p>
+                </div>
+            """, unsafe_allow_html=True)
+
+    with col2:
+        if i + 1 < len(df):
+            row = df.iloc[i + 1]
+
+            loca = TODOS.loc[TODOS['LOCALIZAÇÃO'] == row['LOCALIZAÇÃO']]
+            total = len(loca['NUMERO DE SERIE'])
+
+            st.markdown(f"""
+                <div style="
+                    border: 2px solid #f2a73d;
+                    border-radius: 15px;
+                    padding: 20px;
+                    margin-bottom: 20px;
+                    background-color: #2c3e50;
+                    box-sizing: border-box;
+                    word-wrap: break-word;
+                    display: flex;
+                    flex-direction: column;
+                    align-items: center;
+                    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+                    transition: transform 0.3s ease;">
+                    <h3 style="color: #ecf0f1; text-align: center; margin: 0 0 10px 0; font-size: 1.5em;">{row['LOCALIZAÇÃO']}</h3>
+                    <p style="color: #ecf0f1; text-align: center; font-size: 1.2em;"><strong>Total:</strong> {total}</p>
+                </div>
+            """, unsafe_allow_html=True)
+
+    with col3:
+        if i + 2 < len(df):
+            row = df.iloc[i + 2]
+
+            loca = TODOS.loc[TODOS['LOCALIZAÇÃO'] == row['LOCALIZAÇÃO']]
+            total = len(loca['NUMERO DE SERIE'])
+
+            st.markdown(f"""
+                <div style="
+                    border: 2px solid #f2a73d;
+                    border-radius: 15px;
+                    padding: 20px;
+                    margin-bottom: 20px;
+                    background-color: #2c3e50;
+                    box-sizing: border-box;
+                    word-wrap: break-word;
+                    display: flex;
+                    flex-direction: column;
+                    align-items: center;
+                    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+                    transition: transform 0.3s ease;">
+                    <h3 style="color: #ecf0f1; text-align: center; margin: 0 0 10px 0; font-size: 1.5em;">{row['LOCALIZAÇÃO']}</h3>
+                    <p style="color: #ecf0f1; text-align: center; font-size: 1.2em;"><strong>Total:</strong> {total}</p>
+                </div>
+            """, unsafe_allow_html=True)
 
 
 
