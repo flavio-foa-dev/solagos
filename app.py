@@ -11,6 +11,8 @@ import images
 # msg de saudação
 saudacao = "Meu camarada da cidade de Londres Flavio Andrade"
 print(saudacao)
+print(saudacao)
+
 
 st.set_page_config(
     page_title="So Lagos Impressoras",
