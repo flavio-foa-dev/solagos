@@ -4,6 +4,6 @@ locationSelect = ['SAUDE', 'PACO', 'SEDUC', 'CARTORIO', 'PARTICULAR', 'SEPOL', '
 
 def dashBoardSelect():
     setored = add_selectbox = st.selectbox(
-        "ANALISE DE COPIAS 🔎 ",
+        "ANALISE DE COPIAS 🔎",
         (locationSelect)
     )
