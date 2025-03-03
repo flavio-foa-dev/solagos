@@ -7,6 +7,7 @@ import openpyxl as op
 import validation
 import filters
 import images
+import dashBoard
 
 # msg de saudação
 saudacao = "Meu camarada da cidade de Londres Flavio Andrade"
@@ -122,11 +123,6 @@ images.show_video()
 
 st.dataframe(stock.fillna(""), hide_index=True)
 
-
-
-
-
-
 df = pd.DataFrame(indiceSelect)
 # Título da aplicação
 st.title('CARD BY LOCATION')
@@ -216,7 +212,7 @@ for i in range(0, len(df), 3):  # Itera em blocos de 3 linhas
             """, unsafe_allow_html=True)
 
 
-
+dashBoard.dashBoardSelect()
 
 # Remover o nome de deploy
 st.markdown(
