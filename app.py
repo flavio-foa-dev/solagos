@@ -52,6 +52,7 @@ st.markdown(
 
 validation.validateUser()
 
+pathDashboard = "https://github.com/flavio-foa-dev/excel/raw/main/dashboard.xlsm"
 caminho_rede = "https://github.com/flavio-foa-dev/excel/raw/main/data_printer.xlsm"
 data = pd.read_excel(caminho_rede, sheet_name='PRINTERS_INVENTORY')
 
