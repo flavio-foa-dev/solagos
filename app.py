@@ -52,11 +52,9 @@ st.markdown(
 
 validation.validateUser()
 
-pathDashboard = "https://github.com/flavio-foa-dev/excel/raw/main/dashboard.xlsm"
 caminho_rede = "https://github.com/flavio-foa-dev/excel/raw/main/data_printer.xlsm"
+
 data = pd.read_excel(caminho_rede, sheet_name='PRINTERS_INVENTORY')
-
-
 stock = pd.read_excel(caminho_rede, sheet_name='estoque')
 
 TODOS = data[['MODELO', 'TIPO','NUMERO DE SERIE', 'LOCALIZAÇÃO', 'SETOR', 'EMPRESA', 'ATUALIZADO', 'PRINTWAY']]

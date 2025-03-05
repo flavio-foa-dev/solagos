@@ -1,28 +1,45 @@
 import streamlit as st
 import pandas as pd
 
+# Path to the Excel file on GitHub
 pathDashboard = "https://github.com/flavio-foa-dev/excel/raw/main/dashboard.xlsx"
-SAUDE = pd.read_excel(pathDashboard, sheet_name='Saude')
-PACO = pd.read_excel(pathDashboard, sheet_name='Paco')
 
+# Function to read the Excel file
+@st.cache_data
+def load_data():
+    try:
+        # Load the Excel data
+        SAUDE = pd.read_excel(pathDashboard, sheet_name='Saude')
+        PACO = pd.read_excel(pathDashboard, sheet_name='Paco')
+        return SAUDE, PACO
+    except Exception as e:
+        st.error(f"Erro ao carregar os dados: {e}")
+        return None, None
+
+# Load data
+SAUDE, PACO = load_data()
+
+# List of available locations
 locationSelect = ['SAUDE', 'PACO', 'SEDUC', 'CARTORIO', 'PARTICULAR', 'SEPOL', 'ITABORAI', 'ARRAIAL']
 
 def dashBoardSelect():
-    # Selectbox to choose location
-    filteredToLocation = st.selectbox(
-        "ANALISE DE COPIAS 🔎",
-        locationSelect
-    )
+    # Selectbox for location selection
 
-    # Print the selected location (for debugging purposes)
-    print(filteredToLocation)
+    filteredToLocation = st.selectbox("ANALISE DE CÓPIAS 🔎", locationSelect)
 
-    # Filter data based on the selected location and display the relevant dataframe
+    # Filter and display the relevant data based on location
     if filteredToLocation == 'SAUDE':
-        st.dataframe(SAUDE, hide_index=True)
+        if SAUDE is not None:
+            st.dataframe(SAUDE, hide_index=True)
+        else:
+            st.write("Dados não encontrados para SAUDE.")
     elif filteredToLocation == 'PACO':
-        st.dataframe(PACO, hide_index=True)
+        if PACO is not None:
+            st.dataframe(PACO, hide_index=True)
+        else:
+            st.write("Dados não encontrados para PACO.")
     else:
         st.write(f"Nada encontrado para {filteredToLocation}")
 
-
+# Run the function to display the dashboard
+# dashBoardSelect()
