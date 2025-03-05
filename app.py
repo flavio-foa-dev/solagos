@@ -52,7 +52,8 @@ st.markdown(
 
 validation.validateUser()
 
-caminho_rede = "https://github.com/flavio-foa-dev/excel/raw/main/data_printer.xlsm"
+caminho_rede = "https://github.com/flavio-foa-dev/excel/raw/main/data_printer.xlsx"
+#caminho_rede = "/home/flavio/Documentos/2024/sologas/solagos/data_printer.xlsx"
 
 data = pd.read_excel(caminho_rede, sheet_name='PRINTERS_INVENTORY')
 stock = pd.read_excel(caminho_rede, sheet_name='estoque')
