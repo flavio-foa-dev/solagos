@@ -3,6 +3,7 @@ import streamlit as st
 import time
 from datetime import datetime
 import openpyxl as op
+import pytz
 
 import validation
 import filters
@@ -224,21 +225,16 @@ for i in range(0, len(df), 3):  # Itera em blocos de 3 linhas
 dashBoard.dashBoardSelect()
 
 
-import streamlit as st
-from reportlab.lib.pagesizes import A4
-from reportlab.pdfgen import canvas
-from reportlab.lib import colors
-from reportlab.platypus import Table, TableStyle
-import tempfile
-from datetime import datetime
-
 # Função para gerar o PDF
 def gerar_os_pdf(dados, filename):
     c = canvas.Canvas(filename, pagesize=A4)
     width, height = A4
 
     # Data automática
-    data_atual = datetime.now().strftime("%d/%m/%Y")
+    fuso_horario = pytz.timezone("America/Sao_Paulo")  # Ajuste para o fuso horário que você precisa
+    # Data e hora no fuso horário correto
+    data_atual = datetime.now(fuso_horario).strftime("%d/%m/%Y")
+    print(data_atual)
 
     # Título centralizado
     c.setFont("Helvetica-Bold", 16)
