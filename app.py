@@ -226,133 +226,107 @@ dashBoard.dashBoardSelect()
 
 
 # Função para gerar o PDF
+def limitar_texto(texto, limite=40):
+    return texto[:limite] + "..." if len(texto) > limite else texto
+
 def gerar_os_pdf(dados, filename):
     c = canvas.Canvas(filename, pagesize=A4)
     width, height = A4
 
     # Data automática
-    fuso_horario = pytz.timezone("America/Sao_Paulo")  # Ajuste para o fuso horário que você precisa
-    # Data e hora no fuso horário correto
+    fuso_horario = pytz.timezone("America/Sao_Paulo")
     data_atual = datetime.now(fuso_horario).strftime("%d/%m/%Y")
-    print(data_atual)
 
-    # Título centralizado
+    # Título
     c.setFont("Helvetica-Bold", 16)
     c.drawCentredString(width / 2, height - 50, "ORDEM DE SERVIÇO")
-
-    # Data
     c.setFont("Helvetica", 12)
     c.drawString(450, height - 50, f"Data: {data_atual}")
 
     # Informações do Cliente
-    c.setFont("Helvetica", 12)
-    c.drawString(50, height - 90, f"Cliente: {dados['cliente']}")
-    c.drawString(50, height - 110, f"Endereço: {dados['endereco']}")
-    c.drawString(50, height - 130, f"Contato: {dados['contato']}")
+    y_cliente = height - 90
+    c.drawString(50, y_cliente, f"Cliente: {limitar_texto(dados['cliente'])}")
+    c.drawString(50, y_cliente - 20, f"Endereço: {limitar_texto(dados['endereco'])}")
+    c.drawString(50, y_cliente - 40, f"Contato: {limitar_texto(dados['contato'])}")
 
     # Tabela de Serviços
-    dados_tabela = [["Quantidade", "Descrição do Serviço"]]
-    for servico in dados["servicos"]:
-        dados_tabela.append([servico["quantidade"], servico["descricao"]])
+    y_tabela = y_cliente - 90
+    dados_tabela = [["Quantidade", "Descrição do Serviço"]] + [[s["quantidade"], limitar_texto(s["descricao"])] for s in dados["servicos"]]
 
-    tabela = Table(dados_tabela, colWidths=[80, 400])
+    tabela = Table(dados_tabela, colWidths=[70, 450])
     tabela.setStyle(TableStyle([
         ('BACKGROUND', (0, 0), (-1, 0), colors.grey),
         ('TEXTCOLOR', (0, 0), (-1, 0), colors.whitesmoke),
         ('ALIGN', (0, 0), (-1, -1), 'CENTER'),
         ('GRID', (0, 0), (-1, -1), 1, colors.black),
         ('FONTNAME', (0, 0), (-1, -1), "Helvetica"),
-        ('FONTSIZE', (0, 0), (-1, -1), 12)
+        ('FONTSIZE', (0, 0), (-1, -1), 10),
+        ('BOTTOMPADDING', (0, 0), (-1, -1), 8),
     ]))
 
     tabela.wrapOn(c, width, height)
-    tabela.drawOn(c, 50, height - 250)
+    tabela.drawOn(c, 50, y_tabela - (len(dados["servicos"]) * 20))
 
-    # Rodapé com caixas de assinatura e serviços prestados
+    # Seção de "Serviço Prestado" no final da página
+    y_servicos = 60
+    box_height = max(120, len(dados["servicos"]) * 15 + 120)
+
+    # Caixa de serviço prestado
     c.setStrokeColor(colors.black)
-    c.rect(50, 50, 240, 100, stroke=1, fill=0)
-    c.rect(310, 50, 240, 100, stroke=1, fill=0)
+    c.rect(50, y_servicos, 240, box_height, stroke=1, fill=0)
+    c.rect(310, y_servicos, 240, box_height, stroke=1, fill=0)
 
-    c.setFont("Helvetica-Bold", 12)
-    c.drawString(60, 130, "Serviço Prestado:")
-    c.drawString(320, 130, "Serviço Prestado:")
+    c.setFont("Helvetica", 9)
+    c.drawString(60, y_servicos + box_height - 30, "Serviço Prestado:")
+    c.drawString(320, y_servicos + box_height - 30, "Serviço Prestado:")
 
-    c.setFont("Helvetica", 10)
-    y_position = 110
-    for servico in dados["servicos"]:
-        if y_position >= 80:
-            c.drawString(60, y_position, f"{servico['quantidade']}x {servico['descricao']}")
-            c.drawString(320, y_position, f"{servico['quantidade']}x {servico['descricao']}")
-            y_position -= 15
+    y_lista = y_servicos + box_height - 60
+    for idx, servico in enumerate(dados["servicos"]):
+        texto_limitado = f"{servico['quantidade']}x {limitar_texto(servico['descricao'])}"
+        c.drawString(60, y_lista, texto_limitado)
+        c.drawString(320, y_lista, texto_limitado)
+        y_lista -= 30 if idx == len(dados["servicos"]) - 1 else 15
 
-    # Linhas para assinatura
-    c.line(60, 65, 250, 65)  # Linha para assinatura do cliente
-    c.line(320, 65, 510, 65)  # Linha para assinatura do técnico
+    # Linhas de assinatura
+    assinatura_y = y_servicos + 30
+    c.line(60, assinatura_y, 250, assinatura_y)
+    c.line(320, assinatura_y, 510, assinatura_y)
 
-    c.setFont("Helvetica", 12)
-    c.drawString(60, 55, "Assinatura do Cliente:")
-    c.drawString(320, 55, "Assinatura do Técnico:")
+    c.setFont("Helvetica", 11)
+    c.drawString(60, assinatura_y - 10, "Assinatura do Cliente:")
+    c.drawString(320, assinatura_y - 10, "Assinatura do Técnico:")
 
     c.save()
 
-# Função principal que gera a interface e processa o formulário
 def gerar_ordem_servico():
-    # Título da aplicação
     st.title("Gerador de Ordem de Serviço")
 
-    # Usar o formulário para controlar quando o conteúdo é submetido
     with st.form(key="ordem_servico_form"):
-        # Recuperando dados do session_state (caso existam)
         cliente = st.text_input("Nome do Cliente", value=st.session_state.get("cliente", ""))
         endereco = st.text_input("Endereço", value=st.session_state.get("endereco", ""))
         contato = st.text_input("Contato", value=st.session_state.get("contato", ""))
 
         st.subheader("Serviços Prestados")
         servicos = st.session_state.get("servicos", [])
-
-        # Definir o número de serviços
-        # Garante que o número de serviços será no mínimo 1
         num_servicos = st.number_input("Número de Serviços", min_value=1, step=1, value=max(len(servicos), 1))
 
-        # Preencher ou ajustar a lista de serviços
-        servicos.clear()  # Limpa a lista de serviços, caso a quantidade de serviços seja alterada
+        servicos.clear()
         for i in range(num_servicos):
-            descricao = st.text_input(f"Descrição {i+1}", value=servicos[i]["descricao"] if i < len(servicos) else "", key=f"desc{i}")
-            quantidade = st.number_input(f"Quantidade {i+1}", min_value=1, step=1, value=servicos[i]["quantidade"] if i < len(servicos) else 1, key=f"qtd{i}")
+            descricao = st.text_input(f"Descrição {i+1}", key=f"desc{i}", max_chars=40)
+            quantidade = st.number_input(f"Quantidade {i+1}", min_value=1, step=1, key=f"qtd{i}")
+            servicos.append({"descricao": descricao, "quantidade": quantidade})
 
-            # Atualizando a lista de serviços
-            if i < len(servicos):
-                servicos[i] = {"descricao": descricao, "quantidade": quantidade}
-            else:
-                servicos.append({"descricao": descricao, "quantidade": quantidade})
-
-        # Submeter o formulário
-        submit_button = st.form_submit_button(label="Salvar Dados")
-
-        # Atualiza o session_state com os dados preenchidos
-        if submit_button:
-            st.session_state["cliente"] = cliente
-            st.session_state["endereco"] = endereco
-            st.session_state["contato"] = contato
-            st.session_state["servicos"] = servicos
+        if st.form_submit_button("Salvar Dados"):
+            st.session_state.update({"cliente": cliente, "endereco": endereco, "contato": contato, "servicos": servicos})
             st.success("Dados salvos com sucesso!")
 
-    # Gerar PDF quando o botão for pressionado
     if st.button("Gerar PDF"):
-        dados = {
-            "cliente": st.session_state.get("cliente", ""),
-            "endereco": st.session_state.get("endereco", ""),
-            "contato": st.session_state.get("contato", ""),
-            "servicos": st.session_state.get("servicos", [])
-        }
-        # Gerar o PDF em um arquivo temporário
         with tempfile.NamedTemporaryFile(delete=False, suffix=".pdf") as tmpfile:
-            gerar_os_pdf(dados, tmpfile.name)
+            gerar_os_pdf(st.session_state, tmpfile.name)
             st.success("PDF gerado com sucesso!")
             with open(tmpfile.name, "rb") as file:
                 st.download_button("Baixar PDF", file, "ordem_de_servico.pdf", "application/pdf")
 
-# Executar a função principal
 if __name__ == "__main__":
     gerar_ordem_servico()
 
