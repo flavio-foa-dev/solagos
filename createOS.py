@@ -7,11 +7,14 @@ import tempfile
 from datetime import datetime
 import pytz
 import os
+import create_uuid
+
+uuid_8_caracteres = create_uuid.gerar_uuid_limitado(8)
 
 def limitar_texto(texto, limite=50):
     return texto[:limite] + "..." if len(texto) > limite else texto
 
-def gerar_os_pdf(dados, filename):
+def gerar_os_pdf(dados, filename, titulo_pdf):
     c = canvas.Canvas(filename, pagesize=A4)
     width, height = A4
 
@@ -19,9 +22,11 @@ def gerar_os_pdf(dados, filename):
     fuso_horario = pytz.timezone("America/Sao_Paulo")
     data_atual = datetime.now(fuso_horario).strftime("%d/%m/%Y")
 
-    # Título
+    # Título do PDF baseado na seleção
+    c.setFont("Helvetica", 12)
+    c.drawString(50, height - 50, f"id: {uuid_8_caracteres}")
     c.setFont("Helvetica-Bold", 16)
-    c.drawCentredString(width / 2, height - 50, "ORDEM DE SERVIÇO")
+    c.drawCentredString(width / 2, height - 50, titulo_pdf)  # Título baseado na seleção
     c.setFont("Helvetica", 12)
     c.drawString(450, height - 50, f"Data: {data_atual}")
 
@@ -83,6 +88,22 @@ def gerar_os_pdf(dados, filename):
 def gerar_ordem_servico():
     st.title("Gerador de Ordem de Serviço")
 
+    # Título fixo na interface (não muda)
+    st.subheader("Crie ordens de serviço, recibos e outros documentos personalizados.")
+
+    # Selecione o tipo de documento (manter na sessão)
+    if 'tipo_servico' not in st.session_state:
+        st.session_state.tipo_servico = "ORDEM DE SERVIÇO"  # Valor inicial
+
+    # Selecione o tipo de documento
+    tipo_servico = st.selectbox("SELECIONE O TIPO DE DOCUMENTO",
+                                ["RECIBO DE ENTREGA", "ORDEM DE SERVIÇO", "PEDIDO DE MERCADORIA"],
+                                index=["RECIBO DE ENTREGA", "ORDEM DE SERVIÇO", "PEDIDO DE MERCADORIA"].index(st.session_state.tipo_servico))
+
+    # Salvar a seleção do tipo de serviço no session_state
+    st.session_state.tipo_servico = tipo_servico
+
+    # Formulário para dados da ordem de serviço
     with st.form(key="ordem_servico_form"):
         cliente = st.text_input("Nome do Cliente", value=st.session_state.get("cliente", ""))
         endereco = st.text_input("Endereço", value=st.session_state.get("endereco", ""))
@@ -104,7 +125,7 @@ def gerar_ordem_servico():
 
     if st.button("Gerar PDF"):
         with tempfile.NamedTemporaryFile(delete=False, suffix=".pdf") as tmpfile:
-            gerar_os_pdf(st.session_state, tmpfile.name)
+            gerar_os_pdf(st.session_state, tmpfile.name, st.session_state.tipo_servico)  # Passando o título para a função
             st.success("PDF gerado com sucesso!")
             with open(tmpfile.name, "rb") as file:
                 st.download_button("Baixar PDF", file, "ordem_de_servico.pdf", "application/pdf")
