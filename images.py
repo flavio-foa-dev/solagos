@@ -47,7 +47,7 @@ def show_imagens():
         "Toners Ricoh",
         "Toners Brothes",
         "Brother 5512 Nova",
-        "Ventilador Mesa",
+        "Ricoh 201",
         "Ventilador Coluna"
     ]
 
