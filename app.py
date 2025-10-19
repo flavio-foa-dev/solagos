@@ -123,6 +123,15 @@ st.sidebar.markdown(
     """
 )
 
+
+# Adicionando a mensagem busca de computadores
+with st.sidebar:
+    with st.spinner("Loading..."):
+        time.sleep(2)
+    st.success("So Lagos Computadores 🖥️")
+
+
+# Funcoes de Buscas
 filters.filterByModel(TODOS)
 
 filters.filterByAll(TODOSS)

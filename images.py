@@ -44,7 +44,7 @@ def show_imagens():
         "Ricoh",
         "Ricoh",
         "Carrinhos - Gavetas",
-        "Toners Ricoh",
+        "Impressoras - Gabinetes",
         "Toners Brothes",
         "Brother 5512 Nova",
         "Ricoh 201",
