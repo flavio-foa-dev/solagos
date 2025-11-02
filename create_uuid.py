@@ -25,12 +25,12 @@ def gerar_uuid_limitado(tamanho=8, usar_base64=False):
 
 # Gerando um UUID limitado a 8 caracteres (sem Base64)
 uuid_8_caracteres = gerar_uuid_limitado(8)
-print(f"UUID limitado a 8 caracteres: {uuid_8_caracteres}")
+
 
 # Gerando um UUID limitado a 12 caracteres (sem Base64)
 uuid_12_caracteres = gerar_uuid_limitado(12)
-print(f"UUID limitado a 12 caracteres: {uuid_12_caracteres}")
+
 
 # Gerando um UUID usando Base64 limitado a 16 caracteres
 uuid_base64_16 = gerar_uuid_limitado(16, usar_base64=True)
-print(f"UUID em Base64 limitado a 16 caracteres: {uuid_base64_16}")
+
