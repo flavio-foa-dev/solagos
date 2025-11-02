@@ -9,6 +9,7 @@ import validation
 import filters
 import images
 import dashBoard
+from data_request import load_data
 
 
 from reportlab.lib.pagesizes import A4
@@ -64,21 +65,38 @@ st.markdown(
 
 validation.validateUser()
 
-caminho_rede = "https://github.com/flavio-foa-dev/excel/raw/main/data_printer.xlsx"
-#caminho_rede = "/home/flavio/Documentos/2024/sologas/solagos/data_printer.xlsx"
+# Busca os dados
+inventory_data = load_data()
 
-data = pd.read_excel(caminho_rede, sheet_name='PRINTERS_INVENTORY')
-stock = pd.read_excel(caminho_rede, sheet_name='estoque')
+# Busca as sheet_name
+all_printers = inventory_data['PRINTERS_INVENTORY']
+stock = inventory_data['estoque']
+all_computers = inventory_data['COMPUTER']
+# end
 
-TODOS = data[['MODELO', 'TIPO','NUMERO DE SERIE', 'LOCALIZAÇÃO', 'SETOR', 'EMPRESA', 'ATUALIZADO', 'PRINTWAY']]
-TODOSS = data[['MODELO','TIPO', 'NUMERO DE SERIE', 'LOCALIZAÇÃO', 'SETOR', 'EMPRESA', 'ATUALIZADO', 'PRINTWAY', 'OBSERVAÇÃO']]
+BASIC_COLUMNS = [
+    'MODELO',
+    'TIPO',
+    'NUMERO DE SERIE',
+    'LOCALIZAÇÃO',
+    'SETOR',
+    'EMPRESA',
+    'ATUALIZADO',
+    'PRINTWAY'
+]
+
+FULL_COLUMNS = BASIC_COLUMNS + ['OBSERVAÇÃO']
+
+TODOS = all_printers[BASIC_COLUMNS].copy()
+TODOSS = all_printers[FULL_COLUMNS].copy()
+
 
 # selected
 indiceSelect = TODOS['LOCALIZAÇÃO'].drop_duplicates().sort_values()
 
 with st.sidebar:
     with st.spinner("Loading..."):
-        time.sleep(2)
+        time.sleep(1)
     st.success("So Lagos Impressora 🖨️")
 
 filteredToLocation = add_selectbox = st.sidebar.selectbox(
@@ -125,10 +143,31 @@ st.sidebar.markdown(
 
 
 # Adicionando a mensagem busca de computadores
+#selected de TI
+
+indiceSelect_ti = all_computers ['LOCALIDADE'].drop_duplicates().sort_values()
+
 with st.sidebar:
     with st.spinner("Loading..."):
-        time.sleep(2)
-    st.success("So Lagos Computadores 🖥️")
+        time.sleep(1)
+    st.success("So Lagos TI 💻")
+
+filteredToLocation_ti = add_selectbox = st.sidebar.selectbox(
+    "BUSCA POR LOCAL 🔎🔽 ",
+    (indiceSelect_ti)
+)
+
+location_ti = all_computers.loc[all_computers['LOCALIDADE'] == filteredToLocation_ti]
+location_ti['ATUALIZADO'] = all_computers['DATA'].dt.strftime('%d/%m/%Y')
+
+coutPrint_ti = location_ti['MODELO'].value_counts().reset_index(name='QUANT.')
+coutEmpresa_ti = location_ti['EMPRESA'].value_counts().reset_index(name='QUANT.')
+coutType_ti = location_ti['TIPO'].value_counts().reset_index(name='QUANT.')
+
+with st.sidebar:
+    st.dataframe(coutPrint_ti, hide_index=True)
+    st.dataframe(coutEmpresa_ti, hide_index=True)
+    st.dataframe(coutType_ti, hide_index=True)
 
 
 # Funcoes de Buscas
@@ -358,9 +397,8 @@ def gerar_ordem_servico():
 if __name__ == "__main__":
     gerar_ordem_servico()
 
-
-
-
+st.write("Relatorio :blue[TI]  💻")
+df = st.dataframe(location_ti, hide_index=True)
 
 # Remover o nome de deploy
 st.markdown(

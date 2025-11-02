@@ -11,7 +11,7 @@ def validateUser():
     while True:
         password = st.text_input("Digite a Senha:", type="password", placeholder="Digite a Senha...", key=password_key)
         if password == passwords_correct:
-            st.success("Senha correta. Acesso liberado!")
+            st.success("Senha correta. Acesso liberado! 😀😃😄😁😆")
             time.sleep(2)
             break
         if password == "":
